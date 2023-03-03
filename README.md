@@ -1,11 +1,11 @@
-About gz-rendering
-==================
+About gz-rendering-feedstock
+============================
+
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/gz-rendering-feedstock/blob/main/LICENSE.txt)
 
 Home: https://github.com/gazebosim/gz-rendering
 
 Package license: Apache-2.0
-
-Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/gz-rendering-feedstock/blob/main/LICENSE.txt)
 
 Summary: C++ library designed to provide an abstraction for different rendering engines. It offers unified APIs for creating 3D graphics applications.
 
