@@ -30,7 +30,7 @@ outputs:
         - {{ compiler('cxx') }}
         - {{ compiler('c') }}
         - ninja
-        - cmake
+        - cmake 3.25.*
         - pkg-config
         # x11
         - {{ cdt('mesa-libgl-devel') }}      # [unix and not (osx and arm64)]
