@@ -1,6 +1,6 @@
 {% set component_name = "rendering" %}
 {% set repo_name = "gz-" + component_name %}
-{% set version = "7_7.3.0" %}
+{% set version = "7_7.3.1" %}
 {% set major_version = version.split('_')[0] %}
 {% set version_package = version.split('_')[1] %}
 {% set name = repo_name + major_version %}
@@ -13,7 +13,7 @@ package:
 
 source:
   - url: https://github.com/gazebosim/{{ repo_name }}/archive/{{ repo_name }}{{ version }}.tar.gz
-    sha256: ef654d3c25c4dcf8f0111f864339884c1aa5a71f7424fc1980285f640277f44a
+    sha256: 9a9da62f77c21f7a0b695e929bf9108ac3d88e1747b474eba26c9c5121ae5a99
 
 build:
   number: 0
@@ -33,8 +33,11 @@ outputs:
         - cmake
         - pkg-config
         # x11
+        - sysroot_linux-64 2.17  # [linux64]
         - {{ cdt('mesa-libgl-devel') }}      # [unix and not (osx and arm64)]
         - {{ cdt('mesa-dri-drivers') }}      # [unix and not (osx and arm64)]
+        - {{ cdt('mesa-libegl-devel') }}     # [linux]
+        - {{ cdt('libglvnd-devel') }}        # [linux]
         - {{ cdt('libselinux') }}            # [linux]
         - {{ cdt('libxdamage') }}            # [linux]
         - {{ cdt('libxxf86vm') }}            # [linux]
