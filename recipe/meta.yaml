@@ -1,6 +1,6 @@
 {% set component_name = "rendering" %}
 {% set repo_name = "gz-" + component_name %}
-{% set version = "7_7.3.1" %}
+{% set version = "7_7.4.0" %}
 {% set major_version = version.split('_')[0] %}
 {% set version_package = version.split('_')[1] %}
 {% set name = repo_name + major_version %}
@@ -13,7 +13,7 @@ package:
 
 source:
   - url: https://github.com/gazebosim/{{ repo_name }}/archive/{{ repo_name }}{{ version }}.tar.gz
-    sha256: 9a9da62f77c21f7a0b695e929bf9108ac3d88e1747b474eba26c9c5121ae5a99
+    sha256: 93c6ee6fcf31ab344a6d9c93d0a7147a4dedb4ff77c92d0e053bc1d762085581
 
 build:
   number: 0

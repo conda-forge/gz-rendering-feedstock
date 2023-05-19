@@ -22,6 +22,7 @@ cmake ${CMAKE_ARGS} -GNinja .. \
       -DFREEIMAGE_RUNS:BOOL=ON \
       -DFREEIMAGE_RUNS__TRYRUN_OUTPUT:STRING="" \
       -DFREEIMAGE_COMPILES:BOOL=ON \
+      -DGZ_ENABLE_RELOCATABLE_INSTALL:BOOL=ON \
       -DSKIP_optix:BOOL=ON
 
 cmake --build . --config Release
