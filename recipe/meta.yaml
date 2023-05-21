@@ -14,9 +14,11 @@ package:
 source:
   - url: https://github.com/gazebosim/{{ repo_name }}/archive/{{ repo_name }}{{ version }}.tar.gz
     sha256: 93c6ee6fcf31ab344a6d9c93d0a7147a4dedb4ff77c92d0e053bc1d762085581
+    patches:
+      - 851.patch
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - name: {{ cxx_name }}
