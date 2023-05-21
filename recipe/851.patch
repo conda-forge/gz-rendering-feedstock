@@ -1,0 +1,15 @@
+diff --git a/ogre2/src/media/Hlms/Common/GLSL/CrossPlatformSettings_piece_all.glsl b/ogre2/src/media/Hlms/Common/GLSL/CrossPlatformSettings_piece_all.glsl
+index 4e3912853..049e3e5b5 100644
+--- a/ogre2/src/media/Hlms/Common/GLSL/CrossPlatformSettings_piece_all.glsl
++++ b/ogre2/src/media/Hlms/Common/GLSL/CrossPlatformSettings_piece_all.glsl
+@@ -6,6 +6,10 @@
+ 		#version 430 core
+ 	@else
+ 		#version 330 core
++
++		@property( !hlms_readonly_is_tex )
++			#extension GL_ARB_shader_storage_buffer_object: require
++		@end
+ 	@end
+ @end
+ 
