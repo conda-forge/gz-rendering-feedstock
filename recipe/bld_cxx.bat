@@ -1,3 +1,5 @@
+set PKG_CONFIG_PATH=%LIBRARY_PREFIX%\lib\pkgconfig;%PKG_CONFIG_PATH%
+
 rmdir /s /q build
 mkdir build
 cd build
