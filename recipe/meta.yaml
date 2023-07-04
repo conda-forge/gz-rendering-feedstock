@@ -15,6 +15,7 @@ source:
   - url: https://github.com/gazebosim/{{ repo_name }}/archive/{{ repo_name }}{{ version }}.tar.gz
     sha256: 93c6ee6fcf31ab344a6d9c93d0a7147a4dedb4ff77c92d0e053bc1d762085581
     patches:
+      - 850.patch
       - 851.patch
 
 build:
@@ -64,13 +65,16 @@ outputs:
     test:
       commands:
         - test -f ${PREFIX}/include/gz/{{ component_version }}/gz/{{ component_name }}.hh  # [not win]
-        - test -f ${PREFIX}/lib/lib{{ name }}.so  # [linux]
-        - test -f ${PREFIX}/lib/lib{{ name }}.dylib  # [osx]
+        - test -f ${PREFIX}/lib/lib{{ name }}${SHLIB_EXT}  # [not win]
         - test -f ${PREFIX}/lib/cmake/{{ name }}/{{ name }}-config.cmake  # [not win]
+        - test -f ${PREFIX}/lib/gz-{{ component_name }}-{{ major_version }}/engine-plugins/lib{{ name }}-ogre${SHLIB_EXT}  # [not win]
+        - test -f ${PREFIX}/lib/gz-{{ component_name }}-{{ major_version }}/engine-plugins/lib{{ name }}-ogre2${SHLIB_EXT}  # [not win]
         - if not exist %PREFIX%\\Library\\include\\gz\\{{ component_version }}\\gz\\{{ component_name }}.hh exit 1  # [win]
         - if not exist %PREFIX%\\Library\\lib\\{{ name }}.lib exit 1  # [win]
         - if not exist %PREFIX%\\Library\\bin\\{{ name }}.dll exit 1  # [win]
         - if not exist %PREFIX%\\Library\\lib\\cmake\\{{ name }}\\{{ name }}-config.cmake exit 1  # [win]
+        - if not exist %PREFIX%\\Library\\lib\\gz-{{ component_name }}-{{ major_version }}\\engine-plugins\\{{ name }}-ogre.dll exit 1  # [win]
+        - if not exist %PREFIX%\\Library\\lib\\gz-{{ component_name }}-{{ major_version }}\\engine-plugins\\{{ name }}-ogre2.dll exit 1  # [win]
 
   - name: {{ name }}
     build:
