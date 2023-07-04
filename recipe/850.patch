@@ -1,0 +1,32 @@
+From cac14eee915a2bcb5fe1e106f03cfb3b08ee8d2c Mon Sep 17 00:00:00 2001
+From: Silvio Traversaro <silvio.traversaro@iit.it>
+Date: Sat, 20 May 2023 15:48:24 +0200
+Subject: [PATCH] Fix visibility decorator of Ogre2Projector
+
+Signed-off-by: Silvio Traversaro <silvio.traversaro@iit.it>
+---
+ ogre2/include/gz/rendering/ogre2/Ogre2Projector.hh | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/ogre2/include/gz/rendering/ogre2/Ogre2Projector.hh b/ogre2/include/gz/rendering/ogre2/Ogre2Projector.hh
+index 46e240f57..4774585b0 100644
+--- a/ogre2/include/gz/rendering/ogre2/Ogre2Projector.hh
++++ b/ogre2/include/gz/rendering/ogre2/Ogre2Projector.hh
+@@ -23,7 +23,7 @@
+ #include "gz/rendering/config.hh"
+ 
+ #include "gz/rendering/base/BaseProjector.hh"
+-#include "gz/rendering/ogre/Export.hh"
++#include "gz/rendering/ogre2/Export.hh"
+ #include "gz/rendering/ogre2/Ogre2Visual.hh"
+ 
+ namespace gz
+@@ -33,7 +33,7 @@ namespace gz
+     inline namespace GZ_RENDERING_VERSION_NAMESPACE {
+ 
+     /// \brief Ogre 2.x implementation of a Projector class.
+-    class GZ_RENDERING_OGRE_VISIBLE Ogre2Projector :
++    class GZ_RENDERING_OGRE2_VISIBLE Ogre2Projector :
+       public BaseProjector<Ogre2Visual>
+     {
+       /// \brief Constructor.
