@@ -73,8 +73,8 @@ outputs:
         - if not exist %PREFIX%\\Library\\lib\\{{ name }}.lib exit 1  # [win]
         - if not exist %PREFIX%\\Library\\bin\\{{ name }}.dll exit 1  # [win]
         - if not exist %PREFIX%\\Library\\lib\\cmake\\{{ name }}\\{{ name }}-config.cmake exit 1  # [win]
-        - if not exist %PREFIX%\\Library\\lib\\gz-{{ component_name }}-{{ major_version }}\\engine-plugins\\{{ name }}-ogre.dll  # [win]
-        - if not exist %PREFIX%\\Library\\lib\\gz-{{ component_name }}-{{ major_version }}\\engine-plugins\\{{ name }}-ogre2.dll  # [win]
+        - if not exist %PREFIX%\\Library\\lib\\gz-{{ component_name }}-{{ major_version }}\\engine-plugins\\{{ name }}-ogre.dll exit 1  # [win]
+        - if not exist %PREFIX%\\Library\\lib\\gz-{{ component_name }}-{{ major_version }}\\engine-plugins\\{{ name }}-ogre2.dll exit 1  # [win]
 
   - name: {{ name }}
     build:
