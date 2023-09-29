@@ -1,6 +1,6 @@
 bot:
   abi_migration_branches:
-  - 'v
+  - 'v7'
   automerge: true
 build_platform:
   osx_arm64: osx_64
