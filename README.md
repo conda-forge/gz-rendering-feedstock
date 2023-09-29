@@ -81,8 +81,8 @@ Current release info
 
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-gz--rendering7-green.svg)](https://anaconda.org/conda-forge/gz-rendering7) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/gz-rendering7.svg)](https://anaconda.org/conda-forge/gz-rendering7) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/gz-rendering7.svg)](https://anaconda.org/conda-forge/gz-rendering7) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/gz-rendering7.svg)](https://anaconda.org/conda-forge/gz-rendering7) |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-libgz--rendering7-green.svg)](https://anaconda.org/conda-forge/libgz-rendering7) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libgz-rendering7.svg)](https://anaconda.org/conda-forge/libgz-rendering7) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libgz-rendering7.svg)](https://anaconda.org/conda-forge/libgz-rendering7) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libgz-rendering7.svg)](https://anaconda.org/conda-forge/libgz-rendering7) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-gz--rendering8-green.svg)](https://anaconda.org/conda-forge/gz-rendering8) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/gz-rendering8.svg)](https://anaconda.org/conda-forge/gz-rendering8) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/gz-rendering8.svg)](https://anaconda.org/conda-forge/gz-rendering8) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/gz-rendering8.svg)](https://anaconda.org/conda-forge/gz-rendering8) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-libgz--rendering8-green.svg)](https://anaconda.org/conda-forge/libgz-rendering8) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libgz-rendering8.svg)](https://anaconda.org/conda-forge/libgz-rendering8) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libgz-rendering8.svg)](https://anaconda.org/conda-forge/libgz-rendering8) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libgz-rendering8.svg)](https://anaconda.org/conda-forge/libgz-rendering8) |
 
 Installing gz-rendering
 =======================
@@ -94,41 +94,41 @@ conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `gz-rendering7, libgz-rendering7` can be installed with `conda`:
+Once the `conda-forge` channel has been enabled, `gz-rendering8, libgz-rendering8` can be installed with `conda`:
 
 ```
-conda install gz-rendering7 libgz-rendering7
-```
-
-or with `mamba`:
-
-```
-mamba install gz-rendering7 libgz-rendering7
-```
-
-It is possible to list all of the versions of `gz-rendering7` available on your platform with `conda`:
-
-```
-conda search gz-rendering7 --channel conda-forge
+conda install gz-rendering8 libgz-rendering8
 ```
 
 or with `mamba`:
 
 ```
-mamba search gz-rendering7 --channel conda-forge
+mamba install gz-rendering8 libgz-rendering8
+```
+
+It is possible to list all of the versions of `gz-rendering8` available on your platform with `conda`:
+
+```
+conda search gz-rendering8 --channel conda-forge
+```
+
+or with `mamba`:
+
+```
+mamba search gz-rendering8 --channel conda-forge
 ```
 
 Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search gz-rendering7 --channel conda-forge
+mamba repoquery search gz-rendering8 --channel conda-forge
 
-# List packages depending on `gz-rendering7`:
-mamba repoquery whoneeds gz-rendering7 --channel conda-forge
+# List packages depending on `gz-rendering8`:
+mamba repoquery whoneeds gz-rendering8 --channel conda-forge
 
-# List dependencies of `gz-rendering7`:
-mamba repoquery depends gz-rendering7 --channel conda-forge
+# List dependencies of `gz-rendering8`:
+mamba repoquery depends gz-rendering8 --channel conda-forge
 ```
 
 
