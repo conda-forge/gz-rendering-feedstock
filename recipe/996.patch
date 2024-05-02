@@ -1,0 +1,61 @@
+From 07c28d39421e21c0f69fb265a028b80befb05db1 Mon Sep 17 00:00:00 2001
+From: Silvio Traversaro <silvio@traversaro.it>
+Date: Thu, 2 May 2024 17:24:11 +0200
+Subject: [PATCH] Parse correctly OGRE2_RESOURCE_PATH on Windows
+
+Signed-off-by: Silvio Traversaro <silvio.traversaro@iit.it>
+---
+ ogre2/src/CMakeLists.txt       | 8 +++++++-
+ ogre2/src/Ogre2RenderEngine.cc | 7 +++++--
+ 2 files changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/ogre2/src/CMakeLists.txt b/ogre2/src/CMakeLists.txt
+index cfd9b220b..537b5f180 100644
+--- a/ogre2/src/CMakeLists.txt
++++ b/ogre2/src/CMakeLists.txt
+@@ -16,7 +16,13 @@ set(engine_name "ogre2")
+ gz_add_component(${engine_name} SOURCES ${sources} GET_TARGET_NAME ogre2_target)
+ 
+ set(OGRE2_RESOURCE_PATH_STR "${OGRE2_RESOURCE_PATH}")
+-string(REPLACE ";" ":" OGRE2_RESOURCE_PATH_STR "${OGRE2_RESOURCE_PATH}")
++# On non-Windows, we need to convert the CMake list delimited (;) to the 
++# list delimiter used in list of paths in code (:)
++# On Windows, the list delimiter in code is already ;, not need to change it to :
++if(NOT WIN32)
++  string(REPLACE ";" ":" OGRE2_RESOURCE_PATH_STR "${OGRE2_RESOURCE_PATH}")
++endif()
++
+ set_property(
+   SOURCE Ogre2RenderEngine.cc
+   PROPERTY COMPILE_DEFINITIONS
+diff --git a/ogre2/src/Ogre2RenderEngine.cc b/ogre2/src/Ogre2RenderEngine.cc
+index ae0184d6b..ffce08dc4 100644
+--- a/ogre2/src/Ogre2RenderEngine.cc
++++ b/ogre2/src/Ogre2RenderEngine.cc
+@@ -22,6 +22,8 @@
+ #endif
+ #include <gz/common/Console.hh>
+ #include <gz/common/Filesystem.hh>
++#include <gz/common/StringUtils.hh>
++#include <gz/common/SystemPaths.hh>
+ #include <gz/common/Util.hh>
+ 
+ #include <gz/plugin/Register.hh>
+@@ -118,14 +120,15 @@ Ogre2RenderEngine::Ogre2RenderEngine() :
+   this->dummyWindowId = 0;
+ 
+   std::string ogrePath = std::string(OGRE2_RESOURCE_PATH);
+-  std::vector<std::string> paths = common::split(ogrePath, ":");
++  std::vector<std::string> paths = common::Split(ogrePath,
++      common::SystemPaths::Delimiter());
+   for (const auto &path : paths)
+     this->ogrePaths.push_back(path);
+ 
+   const char *env = std::getenv("OGRE2_RESOURCE_PATH");
+   if (env)
+   {
+-    paths = common::split(std::string(env), ":");
++    paths = common::Split(std::string(env), common::SystemPaths::Delimiter());
+     for (const auto &path : paths)
+       this->ogrePaths.push_back(path);
+   }
