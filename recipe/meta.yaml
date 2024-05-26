@@ -16,9 +16,10 @@ source:
     sha256: 0e368641a4db99ee101d257b6f535caae8ff83f88df86c5ea540b784a3813d4a
     patches:
       - 992.patch
+      - 996.patch
 
 build:
-  number: 1
+  number: 2
 
 outputs:
   - name: {{ cxx_name }}
