@@ -19,7 +19,10 @@ source:
       - 996.patch
 
 build:
-  number: 2
+  number: 3
+  # gz-sim requires gz-common's geospatial component, that requires
+  # gdal that is not available on ppc64le https://github.com/conda-forge/gdal-feedstock/issues/918
+  skip: true  # [ppc64le]
 
 outputs:
   - name: {{ cxx_name }}
