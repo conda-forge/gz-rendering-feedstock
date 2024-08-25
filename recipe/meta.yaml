@@ -36,7 +36,6 @@ outputs:
         - cmake
         - pkg-config
         # x11
-        - sysroot_linux-64 2.17  # [linux64]
         - {{ cdt('mesa-libgl-devel') }}      # [unix and not (osx and arm64)]
         - {{ cdt('mesa-dri-drivers') }}      # [unix and not (osx and arm64)]
         - {{ cdt('mesa-libegl-devel') }}     # [linux]
