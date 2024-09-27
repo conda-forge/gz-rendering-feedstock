@@ -47,10 +47,10 @@ outputs:
         - xorg-libx11                        # [unix]
         - xorg-libxext                       # [unix]
         - libglu                             # [linux]
-        - libgz-math7
-        - libgz-common5
-        - libgz-plugin2
-        - libgz-utils2
+        - libgz-math8
+        - libgz-common6
+        - libgz-plugin3
+        - libgz-utils3
         - ogre-next
         - ogre 1.10.*
       run:
