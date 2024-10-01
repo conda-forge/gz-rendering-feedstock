@@ -36,22 +36,16 @@ outputs:
         - pkg-config
       host:
         - dlfcn-win32                        # [win]
-        - xorg-libx11                        # [unix]
-        - xorg-libxext                       # [unix]
-        - libglu                             # [linux]
         - libgz-math8
         - libgz-common6
         - libgz-plugin3
         - libgz-utils3
         - ogre-next
         - ogre 1.10.*
-        - libgl-devel                        # [linux]
+        - libglx-devel                        # [linux]
         - libopengl-devel                    # [linux]
         - libegl-devel                       # [linux]
       run:
-        - xorg-libx11                        # [unix]
-        - xorg-libxext                       # [unix]
-        - libglu                             # [linux]
         - {{ pin_compatible('ogre', max_pin='x.x') }}
     test:
       commands:
