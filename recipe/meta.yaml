@@ -45,9 +45,9 @@ outputs:
         - libgz-utils3
         - ogre-next
         - ogre 1.10.*
-        - libgl-devel
-        - libopengl-devel
-        - libegl-devel
+        - libgl-devel                        # [linux]
+        - libopengl-devel                    # [linux]
+        - libegl-devel                       # [linux]
       run:
         - xorg-libx11                        # [unix]
         - xorg-libxext                       # [unix]
