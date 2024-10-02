@@ -28,12 +28,9 @@ cmake ${CMAKE_ARGS} -GNinja .. \
 cmake --build . --config Release
 cmake --build . --config Release --target install
 
-# UNIT_Heightmap_TEST disabled for https://github.com/conda-forge/libignition-rendering4-feedstock/issues/10
-# if [[ "${CONDA_BUILD_CROSS_COMPILATION}" != "1" ]]; then
-# Do not run tests as they require to open a display and this is not supported on CI at the moment
-# See https://github.com/conda-forge/libignition-rendering4-feedstock/pull/19#issuecomment-937678806
-# ctest --extra-verbose --output-on-failure -C Release -E "INTEGRATION|PERFORMANCE|REGRESSION|UNIT_RenderingIface_TEST|check_UNIT_RenderingIface_TEST|UNIT_Heightmap_TEST"
-# fi
+if [[ "${CONDA_BUILD_CROSS_COMPILATION}" != "1" ]]; then
+    ctest --output-on-failure -C Release -E "PERFORMANCE"
+fi
 
 # Copy the [de]activate scripts to $PREFIX/etc/conda/[de]activate.d.
 # This will allow them to be run on environment activation.
