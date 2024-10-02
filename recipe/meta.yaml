@@ -35,6 +35,7 @@ outputs:
         - cmake
         - pkg-config
       host:
+        - libglu  # [linux]
         - dlfcn-win32                        # [win]
         - libgz-math8
         - libgz-common6
