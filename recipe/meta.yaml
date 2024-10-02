@@ -17,7 +17,7 @@ source:
       - 1071.patch
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - name: {{ cxx_name }}
@@ -34,32 +34,19 @@ outputs:
         - ninja
         - cmake
         - pkg-config
-        # x11
-        - {{ cdt('mesa-libgl-devel') }}      # [unix and not (osx and arm64)]
-        - {{ cdt('mesa-dri-drivers') }}      # [unix and not (osx and arm64)]
-        - {{ cdt('mesa-libegl-devel') }}     # [linux]
-        - {{ cdt('libglvnd-devel') }}        # [linux]
-        - {{ cdt('libselinux') }}            # [linux]
-        - {{ cdt('libxdamage') }}            # [linux]
-        - {{ cdt('libxxf86vm') }}            # [linux]
-        - {{ cdt('libxfixes') }}             # [linux]
-        - {{ cdt('libxext') }}               # [linux]
-        - {{ cdt('libxau') }}                # [linux]
       host:
+        - libglu  # [linux]
         - dlfcn-win32                        # [win]
-        - xorg-libx11                        # [unix]
-        - xorg-libxext                       # [unix]
-        - libglu                             # [linux]
         - libgz-math8
         - libgz-common6
         - libgz-plugin3
         - libgz-utils3
         - ogre-next
         - ogre 1.10.*
+        - libglx-devel                        # [linux]
+        - libopengl-devel                    # [linux]
+        - libegl-devel                       # [linux]
       run:
-        - xorg-libx11                        # [unix]
-        - xorg-libxext                       # [unix]
-        - libglu                             # [linux]
         - {{ pin_compatible('ogre', max_pin='x.x') }}
     test:
       commands:
