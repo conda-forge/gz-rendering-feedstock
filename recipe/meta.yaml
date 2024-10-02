@@ -15,7 +15,7 @@ source:
     sha256: d7782709d393841e5263a085ef3d0727bd249d5d430dc1f149d15acaa1c03efd
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - name: {{ cxx_name }}
@@ -32,31 +32,21 @@ outputs:
         - ninja
         - cmake
         - pkg-config
-        # x11
-        - {{ cdt('mesa-libgl-devel') }}      # [unix and not (osx and arm64)]
-        - {{ cdt('mesa-dri-drivers') }}      # [unix and not (osx and arm64)]
-        - {{ cdt('mesa-libegl-devel') }}     # [linux]
-        - {{ cdt('libglvnd-devel') }}        # [linux]
-        - {{ cdt('libselinux') }}            # [linux]
-        - {{ cdt('libxdamage') }}            # [linux]
-        - {{ cdt('libxxf86vm') }}            # [linux]
-        - {{ cdt('libxfixes') }}             # [linux]
-        - {{ cdt('libxext') }}               # [linux]
-        - {{ cdt('libxau') }}                # [linux]
       host:
-        - xorg-libx11                        # [unix]
-        - xorg-libxext                       # [unix]
-        - libglu                             # [linux]
         - libgz-math7
         - libgz-common5
         - libgz-plugin2
         - libgz-utils2
         - ogre-next
         - ogre 1.10.*
+        - libglu                             # [linux]
+        - dlfcn-win32                        # [win]
+        - libglx-devel                       # [linux]
+        - libopengl-devel                    # [linux]
+        - libegl-devel                       # [linux]
       run:
         - xorg-libx11                        # [unix]
         - xorg-libxext                       # [unix]
-        - libglu                             # [linux]
         - {{ pin_compatible('ogre', max_pin='x.x') }}
     test:
       commands:
