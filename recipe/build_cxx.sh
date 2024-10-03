@@ -29,10 +29,11 @@ cmake --build . --config Release
 cmake --build . --config Release --target install
 
 # PERFORMANCE tests are disabled as they could fail on test machines
-# _ogre_ test disables as GLX is required for _ogre_
+# _ogre_ test disabled as GLX is required for _ogre_
 # UNIT_RenderingIface_TEST disabled due to https://github.com/gazebosim/gz-rendering/issues/1072
+# _metal_ test disabled as metal tests are not running in CI
 if [[ "${CONDA_BUILD_CROSS_COMPILATION}" != "1" ]]; then
-    ctest --output-on-failure -C Release -E "PERFORMANCE|_ogre_|UNIT_RenderingIface_TEST"
+    ctest --output-on-failure -C Release -E "PERFORMANCE|_ogre_|UNIT_RenderingIface_TEST|_metal_"
 fi
 
 # Copy the [de]activate scripts to $PREFIX/etc/conda/[de]activate.d.
