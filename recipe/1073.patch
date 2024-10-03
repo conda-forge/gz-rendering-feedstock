@@ -1,0 +1,27 @@
+From 22602b48308f1097af464e8e5d2c7fd4f9273aeb Mon Sep 17 00:00:00 2001
+From: Silvio Traversaro <silvio@traversaro.it>
+Date: Thu, 3 Oct 2024 16:33:40 +0200
+Subject: [PATCH] Fix running rendering tests in GZ_ENABLE_RELOCATABLE_INSTALL
+ is ON
+
+Signed-off-by: Silvio Traversaro <silvio@traversaro.it>
+---
+ test/gz_rendering_test.cmake | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/test/gz_rendering_test.cmake b/test/gz_rendering_test.cmake
+index 4868bb363..f5ffe511d 100644
+--- a/test/gz_rendering_test.cmake
++++ b/test/gz_rendering_test.cmake
+@@ -81,6 +81,11 @@ macro(gz_configure_rendering_test)
+       APPEND PROPERTY
+         ENVIRONMENT "GZ_ENGINE_BACKEND=${gz_configure_rendering_test_RENDER_ENGINE_BACKEND}")
+ 
++  set_property(
++      TEST ${test_name}
++      APPEND PROPERTY
++        ENVIRONMENT "GZ_RENDERING_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}")
++
+   if(gz_configure_rendering_test_HEADLESS)
+     set_property(
+         TEST ${test_name}

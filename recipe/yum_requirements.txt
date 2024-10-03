@@ -1,0 +1,2 @@
+mesa-libEGL
+mesa-dri-drivers
