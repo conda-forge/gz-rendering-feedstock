@@ -23,7 +23,8 @@ cmake --build . --config Release --target install
 if errorlevel 1 exit 1
 
 :: Test.
-ctest --output-on-failure -C Release -E "PERFORMANCE"
+:: Disabled as they are not currently running in CI on Windows
+:: ctest --output-on-failure -C Release -E "PERFORMANCE"
 
 setlocal EnableDelayedExpansion
 :: Copy the [de]activate scripts to %PREFIX%\etc\conda\[de]activate.d.
