@@ -1,0 +1,288 @@
+From cd23db7dbafb98709de70e90f70ff4de5103b25b Mon Sep 17 00:00:00 2001
+From: Jose Luis Rivero <jrivero@osrfoundation.org>
+Date: Wed, 1 Oct 2025 18:10:08 +0200
+Subject: [PATCH] Exclude OGRE2 Overlay using a CMake argument (gz-rendering9)
+ (#1177)
+
+* Exclude OGRE2 Overlay using a CMake argument (gz-rendering9)
+
+This is mainly a port of
+https://github.com/gazebosim/gz-rendering/pull/1175 to be
+activated under the parameter `USE_OGRE2_OVERLAY` enabled
+by default.
+
+---------
+Signed-off-by: Jose Luis Rivero <jrivero@honurobotics.com>
+Co-authored-by: Silvio Traversaro <silvio@traversaro.it>
+(cherry picked from commit bb0e866213d3a643f71cf26e3461ac54d67cf16a)
+
+---
+ CMakeLists.txt                                  | 17 +++++++++++++++--
+ include/gz/rendering/config.hh.in               |  1 +
+ .../include/gz/rendering/ogre2/Ogre2Includes.hh |  4 ++++
+ .../gz/rendering/ogre2/Ogre2RenderEngine.hh     |  9 +++++++++
+ ogre2/src/Ogre2RenderEngine.cc                  |  9 +++++++++
+ ogre2/src/Ogre2Scene.cc                         |  7 +++++++
+ 7 files changed, 59 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 4c9a8b5e3..3ddb54ff1 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -23,6 +23,7 @@ gz_configure_project(VERSION_SUFFIX)
+ # Set project-specific options
+ #============================================================================
+ option(USE_UNOFFICIAL_OGRE_VERSIONS "Accept unsupported Ogre versions in the build" OFF)
++option(USE_OGRE2_OVERLAY "Enable OGRE2 Overlay support" ON)
+ 
+ #============================================================================
+ # Search for project-specific dependencies
+@@ -97,21 +98,33 @@ endif()
+ # Find OGRE2: first try to find OGRE2 built with PlanarReflections support and
+ # fallback to look for OGRE2 without it. Both seems to works for gz-rendering.
+ # See https://github.com/gazebosim/gz-rendering/issues/597
++
++# Build the list of OGRE2 components based on the options
++set(OGRE2_COMPONENTS HlmsPbs HlmsUnlit PlanarReflections)
++if(USE_OGRE2_OVERLAY)
++  list(APPEND OGRE2_COMPONENTS Overlay)
++  set(GZ_RENDERING_HAVE_OGRE2_OVERLAY TRUE)
++endif()
++
+ gz_find_package(GzOGRE2 VERSION 2.3.1
+-    COMPONENTS HlmsPbs HlmsUnlit Overlay PlanarReflections
++    COMPONENTS ${OGRE2_COMPONENTS}
+     PRIVATE_FOR ogre2
+     QUIET)
+ 
+ if ("${OGRE2-PlanarReflections}" STREQUAL "OGRE2-PlanarReflections-NOTFOUND")
+   message(STATUS "PlanarReflections component was not found. Try looking without it:")
+   gz_find_package(GzOGRE2 VERSION 2.3.1
+-    COMPONENTS HlmsPbs HlmsUnlit Overlay
++    COMPONENTS ${OGRE2_COMPONENTS}
+     REQUIRED_BY ogre2
+     PRIVATE_FOR ogre2)
+ endif()
+ 
+ if (OGRE2_FOUND)
+   set(GZ_RENDERING_HAVE_OGRE2 TRUE)
++
++  if(NOT USE_OGRE2_OVERLAY)
++    message(STATUS "OGRE2 Overlay support disabled by configuration")
++  endif()
+ endif()
+ 
+ #--------------------------------------
+diff --git a/include/gz/rendering/config.hh.in b/include/gz/rendering/config.hh.in
+index cbe8b689b..5ff329847 100644
+--- a/include/gz/rendering/config.hh.in
++++ b/include/gz/rendering/config.hh.in
+@@ -34,6 +34,7 @@
+ 
+ #cmakedefine GZ_RENDERING_HAVE_OGRE 1
+ #cmakedefine GZ_RENDERING_HAVE_OGRE2 1
++#cmakedefine GZ_RENDERING_HAVE_OGRE2_OVERLAY 1
+ #cmakedefine GZ_RENDERING_HAVE_OPTIX 1
+ #cmakedefine GZ_RENDERING_HAVE_VULKAN 1
+ 
+diff --git a/ogre2/include/gz/rendering/ogre2/Ogre2Includes.hh b/ogre2/include/gz/rendering/ogre2/Ogre2Includes.hh
+index f5c04839b..ff5222fbc 100644
+--- a/ogre2/include/gz/rendering/ogre2/Ogre2Includes.hh
++++ b/ogre2/include/gz/rendering/ogre2/Ogre2Includes.hh
+@@ -17,6 +17,8 @@
+ #ifndef GZ_RENDERING_OGRE2_OGRE2INCLUDES_HH_
+ #define GZ_RENDERING_OGRE2_OGRE2INCLUDES_HH_
+ 
++#include "gz/rendering/config.hh"
++
+ // This disables warning messages for OGRE
+ #ifndef _MSC_VER
+   #pragma GCC system_header
+@@ -96,12 +98,14 @@
+ #include <Compositor/Pass/PassScene/OgreCompositorPassScene.h>
+ #include <Compositor/Pass/PassScene/OgreCompositorPassSceneDef.h>
+ 
++#ifdef GZ_RENDERING_HAVE_OGRE2_OVERLAY
+ #include <Overlay/OgreOverlayPrerequisites.h>
+ #include <Overlay/OgreOverlayManager.h>
+ #include <Overlay/OgreOverlayElement.h>
+ #include <Overlay/OgreOverlayContainer.h>
+ #include <Overlay/OgreFontManager.h>
+ #include <Overlay/OgreOverlaySystem.h>
++#endif
+ 
+ // TODO(anyone): enable when ogre 2.1 fully supports paging
+ // and terrain components
+diff --git a/ogre2/include/gz/rendering/ogre2/Ogre2RenderEngine.hh b/ogre2/include/gz/rendering/ogre2/Ogre2RenderEngine.hh
+index 9223385d6..821419ab2 100644
+--- a/ogre2/include/gz/rendering/ogre2/Ogre2RenderEngine.hh
++++ b/ogre2/include/gz/rendering/ogre2/Ogre2RenderEngine.hh
+@@ -24,6 +24,7 @@
+ 
+ #include <gz/common/SingletonT.hh>
+ 
++#include "gz/rendering/config.hh"
+ #include "gz/rendering/GraphicsAPI.hh"
+ #include "gz/rendering/RenderEnginePlugin.hh"
+ #include "gz/rendering/base/BaseRenderEngine.hh"
+@@ -37,10 +38,12 @@ namespace Ogre
+   class LogManager;
+   class Root;
+   class Window;
++#ifdef GZ_RENDERING_HAVE_OGRE2_OVERLAY
+   namespace v1
+   {
+     class OverlaySystem;
+   }
++#endif
+ 
+   class HlmsPbsTerraShadows;
+   class CompositorWorkspaceListener;
+@@ -161,8 +164,10 @@ namespace gz
+       /// \brief Create ogre root
+       private: void CreateRoot();
+ 
++#ifdef GZ_RENDERING_HAVE_OGRE2_OVERLAY
+       /// \brief Create ogre overlay component
+       private: void CreateOverlay();
++#endif
+ 
+       /// \brief Create ogre plugins.
+       private: void LoadPlugins();
+@@ -187,10 +192,12 @@ namespace gz
+       /// \return Ogre HLMS customizations
+       public: Ogre2GzHlmsSphericalClipMinDistance &SphericalClipMinDistance();
+ 
++#ifdef GZ_RENDERING_HAVE_OGRE2_OVERLAY
+       /// \internal
+       /// \brief Get a pointer to the Ogre overlay system.
+       /// \return Pointer to the ogre overlay system.
+       public: Ogre::v1::OverlaySystem *OverlaySystem() const;
++#endif
+ 
+       /// \internal
+       /// \brief Sets the current rendering mode. See GzOgreRenderingMode
+@@ -221,8 +228,10 @@ namespace gz
+       /// \return a pointer to the render engine
+       public: static Ogre2RenderEngine *Instance();
+ 
++#ifdef GZ_RENDERING_HAVE_OGRE2_OVERLAY
+       /// \brief Pointer to the ogre's overlay system
+       private: Ogre::v1::OverlaySystem *ogreOverlaySystem = nullptr;
++#endif
+ 
+       /// \brief List of scenes managed by the render engine
+       private: Ogre2SceneStorePtr scenes;
+diff --git a/ogre2/src/Ogre2RenderEngine.cc b/ogre2/src/Ogre2RenderEngine.cc
+index 0290a632e..b8431e4ab 100644
+--- a/ogre2/src/Ogre2RenderEngine.cc
++++ b/ogre2/src/Ogre2RenderEngine.cc
+@@ -28,6 +28,7 @@
+ 
+ #include <gz/plugin/Register.hh>
+ 
++#include "gz/rendering/config.hh"
+ #include "gz/rendering/GraphicsAPI.hh"
+ #include "gz/rendering/InstallationDirectories.hh"
+ #include "gz/rendering/RenderEngineManager.hh"
+@@ -190,8 +191,10 @@ void Ogre2RenderEngine::Destroy()
+     this->scenes->RemoveAll();
+   }
+ 
++#ifdef GZ_RENDERING_HAVE_OGRE2_OVERLAY
+   delete this->ogreOverlaySystem;
+   this->ogreOverlaySystem = nullptr;
++#endif
+ 
+   this->dataPtr->hlmsPbsTerraShadows.reset();
+ 
+@@ -501,7 +504,9 @@ void Ogre2RenderEngine::LoadAttempt()
+   }
+ 
+   this->CreateRoot();
++#ifdef GZ_RENDERING_HAVE_OGRE2_OVERLAY
+   this->CreateOverlay();
++#endif
+   this->LoadPlugins();
+   this->CreateRenderSystem();
+   this->ogreRoot->initialise(false);
+@@ -636,11 +641,13 @@ void Ogre2RenderEngine::CreateRoot()
+   }
+ }
+ 
++#ifdef GZ_RENDERING_HAVE_OGRE2_OVERLAY
+ //////////////////////////////////////////////////
+ void Ogre2RenderEngine::CreateOverlay()
+ {
+   this->ogreOverlaySystem = new Ogre::v1::OverlaySystem();
+ }
++#endif
+ 
+ //////////////////////////////////////////////////
+ void Ogre2RenderEngine::LoadPlugins()
+@@ -1416,11 +1423,13 @@ SphericalClipMinDistance()
+   return this->dataPtr->sphericalClipMinDistance;
+ }
+ 
++#ifdef GZ_RENDERING_HAVE_OGRE2_OVERLAY
+ /////////////////////////////////////////////////
+ Ogre::v1::OverlaySystem *Ogre2RenderEngine::OverlaySystem() const
+ {
+   return this->ogreOverlaySystem;
+ }
++#endif
+ 
+ /////////////////////////////////////////////////
+ void Ogre2RenderEngine::SetGzOgreRenderingMode(
+diff --git a/ogre2/src/Ogre2Scene.cc b/ogre2/src/Ogre2Scene.cc
+index 2da0e2276..1dbf0c0b7 100644
+--- a/ogre2/src/Ogre2Scene.cc
++++ b/ogre2/src/Ogre2Scene.cc
+@@ -31,6 +31,7 @@
+ 
+ #include <gz/common/Console.hh>
+ 
++#include "gz/rendering/config.hh"
+ #include "gz/rendering/base/SceneExt.hh"
+ #include "gz/rendering/GraphicsAPI.hh"
+ #include "gz/rendering/RenderTypes.hh"
+@@ -83,8 +84,10 @@
+ #include <OgrePlatformInformation.h>
+ #include <OgreRoot.h>
+ #include <OgreSceneManager.h>
++#ifdef GZ_RENDERING_HAVE_OGRE2_OVERLAY
+ #include <Overlay/OgreOverlayManager.h>
+ #include <Overlay/OgreOverlaySystem.h>
++#endif
+ #if OGRE_VERSION_MAJOR == 2 && OGRE_VERSION_MINOR == 1
+ #include <OgreHlms.h>
+ #include <OgreHlmsManager.h>
+@@ -501,11 +504,13 @@ void Ogre2Scene::Destroy()
+ 
+   BaseScene::Destroy();
+ 
++#ifdef GZ_RENDERING_HAVE_OGRE2_OVERLAY
+   if (this->ogreSceneManager)
+   {
+     this->ogreSceneManager->removeRenderQueueListener(
+         Ogre2RenderEngine::Instance()->OverlaySystem());
+   }
++#endif
+ 
+   if (this->dataPtr->activeGi)
+   {
+@@ -1477,12 +1482,14 @@ void Ogre2Scene::CreateContext()
+   this->ogreSceneManager = root->createSceneManager(Ogre::ST_GENERIC,
+                                                     numThreads);
+ 
++#ifdef GZ_RENDERING_HAVE_OGRE2_OVERLAY
+   this->ogreSceneManager->addRenderQueueListener(
+       Ogre2RenderEngine::Instance()->OverlaySystem());
+ 
+   this->ogreSceneManager->getRenderQueue()->setSortRenderQueue(
+       Ogre::v1::OverlayManager::getSingleton().mDefaultRenderQueueId,
+       Ogre::RenderQueue::StableSort);
++#endif
+ 
+   // Set sane defaults for proper shadow mapping
+   this->ogreSceneManager->setShadowDirectionalLightExtrusionDistance(500.0f);

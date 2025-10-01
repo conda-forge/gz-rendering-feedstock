@@ -1,0 +1,116 @@
+schema_version: 1
+
+context:
+  component_name: rendering
+  repo_name: ${{ "gz-" + component_name }}
+  version: 10.0.0
+  major_version: "10"
+  name: ${{ repo_name }}
+  component_version: ${{ component_name + major_version }}
+  cxx_name: ${{ "lib" + name }}
+
+recipe:
+  name: ${{ name }}
+  version: ${{ version }}
+
+source:
+  - url: https://github.com/gazebosim/${{ repo_name }}/archive/${{ repo_name }}${{ major_version }}_${{ version }}.tar.gz
+    sha256: 2cf43103eec556c1f5a93e906fec679e108f327e753e1f82306f86cdfeaff14b
+    patches:
+      - 1178.patch
+
+build:
+  number: 0
+
+outputs:
+  - package:
+      name: ${{ cxx_name }}
+    build:
+      script:
+        - if: unix
+          then: build_cxx.sh
+        - if: win
+          then: bld_cxx.bat
+    requirements:
+      build:
+        - ${{ compiler('cxx') }}
+        - ${{ compiler('c') }}
+        - ${{ stdlib('c') }}
+        - ninja
+        - cmake
+        - pkg-config
+      host:
+        - if: linux
+          then:
+            - libglu
+            - libglx-devel
+            - libopengl-devel
+            - libegl-devel
+        - if: win
+          then:
+            - dlfcn-win32
+        - libgz-math9
+        - libgz-common7
+        - libgz-plugin3
+        - libgz-utils3
+        - ogre-next
+        - ogre 1.10.*
+      run:
+        - ${{ pin_compatible('ogre', upper_bound='x.x') }}
+      run_exports:
+        - ${{ pin_subpackage(cxx_name, upper_bound='x') }}
+    tests:
+      - script:
+          - if: not win
+            then:
+              - test -f ${PREFIX}/include/gz/${{ component_version }}/gz/${{ component_name }}.hh
+              - test -f ${PREFIX}/lib/lib${{ name }}${SHLIB_EXT}
+              - test -f ${PREFIX}/lib/cmake/${{ name }}/${{ name }}-config.cmake
+              - test -f ${PREFIX}/lib/gz-${{ component_name }}-${{ major_version }}/engine-plugins/lib${{ name }}-ogre${SHLIB_EXT}
+              - test -f ${PREFIX}/lib/gz-${{ component_name }}-${{ major_version }}/engine-plugins/lib${{ name }}-ogre2${SHLIB_EXT}
+          - if: win
+            then:
+              - if not exist %PREFIX%\\Library\\include\\gz\\${{ component_version }}\\gz\\${{ component_name }}.hh exit 1
+              - if not exist %PREFIX%\\Library\\lib\\${{ name }}.lib exit 1
+              - if not exist %PREFIX%\\Library\\bin\\${{ name }}.dll exit 1
+              - if not exist %PREFIX%\\Library\\lib\\cmake\\${{ name }}\\${{ name }}-config.cmake exit 1
+              - if not exist %PREFIX%\\Library\\lib\\gz-${{ component_name }}-${{ major_version }}\\engine-plugins\\${{ name }}-ogre.dll exit 1
+              - if not exist %PREFIX%\\Library\\lib\\gz-${{ component_name }}-${{ major_version }}\\engine-plugins\\${{ name }}-ogre2.dll exit 1
+
+  - package:
+      name: ${{ name }}
+    requirements:
+      run:
+        - ${{ pin_subpackage(cxx_name, exact=True) }}
+      run_exports:
+        - ${{ pin_subpackage(cxx_name, upper_bound='x') }}
+    tests:
+      - script:
+          - if: not win
+            then:
+              - test -f ${PREFIX}/include/gz/${{ component_version }}/gz/${{ component_name }}.hh
+              - test -f ${PREFIX}/lib/cmake/${{ name }}/${{ name }}-config.cmake
+          - if: linux
+            then:
+              - test -f ${PREFIX}/lib/lib${{ name }}.so
+          - if: osx
+            then:
+              - test -f ${PREFIX}/lib/lib${{ name }}.dylib
+          - if: win
+            then:
+              - if not exist %PREFIX%\\Library\\include\\gz\\${{ component_version }}\\gz\\${{ component_name }}.hh exit 1
+              - if not exist %PREFIX%\\Library\\lib\\${{ name }}.lib exit 1
+              - if not exist %PREFIX%\\Library\\bin\\${{ name }}.dll exit 1
+              - if not exist %PREFIX%\\Library\\lib\\cmake\\${{ name }}\\${{ name }}-config.cmake exit 1
+
+about:
+  homepage: https://github.com/gazebosim/${{ repo_name }}
+  license: Apache-2.0
+  license_file: LICENSE
+  summary: C++ library designed to provide an abstraction for different rendering engines. It offers unified APIs for creating 3D graphics applications.
+
+extra:
+  feedstock-name: ${{ repo_name }}
+  recipe-maintainers:
+    - wolfv
+    - traversaro

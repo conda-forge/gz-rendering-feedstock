@@ -23,6 +23,7 @@ cmake ${CMAKE_ARGS} -GNinja .. \
       -DFREEIMAGE_RUNS__TRYRUN_OUTPUT:STRING="" \
       -DFREEIMAGE_COMPILES:BOOL=ON \
       -DGZ_ENABLE_RELOCATABLE_INSTALL:BOOL=ON \
+      -DUSE_OGRE2_OVERLAY:BOOL=OFF \
       -DSKIP_optix:BOOL=ON
 
 cmake --build . --config Release
