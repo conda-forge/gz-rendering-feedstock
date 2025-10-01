@@ -1,3 +1,7 @@
-# EGL mesa driver on cos7 are not working as expected, use alma8 instead
-docker_image:                                       # [linux64]
-  - quay.io/condaforge/linux-anvil-alma-x86_64:8    # [linux64]
+# Workaround for https://github.com/gazebosim/gz-rendering/pull/1175
+# As the removed functions are inline, see https://github.com/llvm/llvm-project/commit/aeecef08c385b1e4955155dd649a2d3724463849
+# we can continue to temporary use clang 18 and use a newer libc++ version at runtime
+c_compiler_version:            # [osx]
+  - 18                         # [osx]
+cxx_compiler_version:          # [osx]
+  - 18                         # [osx]
