@@ -54,11 +54,11 @@ outputs:
           then:
             - dlfcn-win32
       run:
-        - if: unix
+        - if: linux
           then:
-            - xorg-libx11
-            - xorg-libxext
-        - ${{ pin_compatible('ogre', upper_bound='x.x') }}
+            - libglx-devel
+            - libopengl-devel
+            - libegl-devel
       run_exports:
         - ${{ pin_subpackage(cxx_name, upper_bound='x') }}
     tests:
@@ -128,6 +128,7 @@ outputs:
     requirements:
       run:
         - ${{ pin_subpackage(name, exact=true) }}
+        - ${{ pin_subpackage('libgz-rendering', exact=true) }}
       run_exports:
         - ${{ pin_subpackage(cxx_name, upper_bound='x') }}
         - ${{ pin_subpackage('libgz-rendering', upper_bound='x') }}
