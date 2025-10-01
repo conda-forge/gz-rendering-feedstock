@@ -49,10 +49,10 @@ outputs:
         - if: win
           then:
             - dlfcn-win32
-        - libgz-math9
-        - libgz-common7
-        - libgz-plugin3
-        - libgz-utils3
+        - libgz-math
+        - libgz-common
+        - libgz-plugin
+        - libgz-utils
         - ogre-next
         - ogre 1.10.*
       run:
