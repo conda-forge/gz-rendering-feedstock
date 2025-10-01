@@ -53,12 +53,6 @@ outputs:
         - if: win
           then:
             - dlfcn-win32
-      run:
-        - if: unix
-          then:
-            - xorg-libx11
-            - xorg-libxext
-        - ${{ pin_compatible('ogre', upper_bound='x.x') }}
       run_exports:
         - ${{ pin_subpackage(cxx_name, upper_bound='x') }}
     tests:
