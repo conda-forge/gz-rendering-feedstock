@@ -120,6 +120,8 @@ outputs:
       run:
         - ${{ pin_subpackage(cxx_name, exact=True) }}
         - ${{ pin_compatible('ogre', upper_bound='x.x') }}
+      run_exports:
+        - ${{ pin_subpackage(cxx_name + '-ogre', upper_bound='x') }}
     tests:
       - script:
           - if: not win
@@ -135,6 +137,8 @@ outputs:
     requirements:
       run:
         - ${{ pin_subpackage(cxx_name + '-ogre', exact=True) }}
+      run_exports:
+        - ${{ pin_subpackage(cxx_name + '-ogre', upper_bound='x') }}
     tests:
       - script:
           - if: not win
