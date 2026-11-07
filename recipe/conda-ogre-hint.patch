@@ -9,8 +9,7 @@ index db9aab0..687ba0c 100644
 +    if (_filename == "gz-rendering-ogre")
 +    {
 +      gzerr << "In conda-forge, the ogre (Ogre 1.x) render engine is "
-+            << "packaged separately. Install it with: "
-+            << "conda install -c conda-forge gz-rendering-ogre" << std::endl;
++            << "packaged separately. Install it with with the gz-rendering-ogre package. "
 +    }
      return false;
    }
