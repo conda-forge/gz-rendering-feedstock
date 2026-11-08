@@ -54,9 +54,11 @@ Current release info
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-gz--rendering-green.svg)](https://anaconda.org/conda-forge/gz-rendering) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/gz-rendering.svg)](https://anaconda.org/conda-forge/gz-rendering) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/gz-rendering.svg)](https://anaconda.org/conda-forge/gz-rendering) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/gz-rendering.svg)](https://anaconda.org/conda-forge/gz-rendering) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-gz--rendering--ogre-green.svg)](https://anaconda.org/conda-forge/gz-rendering-ogre) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/gz-rendering-ogre.svg)](https://anaconda.org/conda-forge/gz-rendering-ogre) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/gz-rendering-ogre.svg)](https://anaconda.org/conda-forge/gz-rendering-ogre) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/gz-rendering-ogre.svg)](https://anaconda.org/conda-forge/gz-rendering-ogre) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-gz--rendering9-green.svg)](https://anaconda.org/conda-forge/gz-rendering9) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/gz-rendering9.svg)](https://anaconda.org/conda-forge/gz-rendering9) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/gz-rendering9.svg)](https://anaconda.org/conda-forge/gz-rendering9) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/gz-rendering9.svg)](https://anaconda.org/conda-forge/gz-rendering9) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-gz--rendering9--ogre-green.svg)](https://anaconda.org/conda-forge/gz-rendering9-ogre) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/gz-rendering9-ogre.svg)](https://anaconda.org/conda-forge/gz-rendering9-ogre) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/gz-rendering9-ogre.svg)](https://anaconda.org/conda-forge/gz-rendering9-ogre) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/gz-rendering9-ogre.svg)](https://anaconda.org/conda-forge/gz-rendering9-ogre) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libgz--rendering-green.svg)](https://anaconda.org/conda-forge/libgz-rendering) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libgz-rendering.svg)](https://anaconda.org/conda-forge/libgz-rendering) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libgz-rendering.svg)](https://anaconda.org/conda-forge/libgz-rendering) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libgz-rendering.svg)](https://anaconda.org/conda-forge/libgz-rendering) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-libgz--rendering--ogre-green.svg)](https://anaconda.org/conda-forge/libgz-rendering-ogre) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libgz-rendering-ogre.svg)](https://anaconda.org/conda-forge/libgz-rendering-ogre) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libgz-rendering-ogre.svg)](https://anaconda.org/conda-forge/libgz-rendering-ogre) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libgz-rendering-ogre.svg)](https://anaconda.org/conda-forge/libgz-rendering-ogre) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libgz--rendering9-green.svg)](https://anaconda.org/conda-forge/libgz-rendering9) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libgz-rendering9.svg)](https://anaconda.org/conda-forge/libgz-rendering9) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libgz-rendering9.svg)](https://anaconda.org/conda-forge/libgz-rendering9) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libgz-rendering9.svg)](https://anaconda.org/conda-forge/libgz-rendering9) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libgz--rendering9--ogre-green.svg)](https://anaconda.org/conda-forge/libgz-rendering9-ogre) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libgz-rendering9-ogre.svg)](https://anaconda.org/conda-forge/libgz-rendering9-ogre) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libgz-rendering9-ogre.svg)](https://anaconda.org/conda-forge/libgz-rendering9-ogre) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libgz-rendering9-ogre.svg)](https://anaconda.org/conda-forge/libgz-rendering9-ogre) |
 
@@ -77,7 +79,7 @@ How to use
 <summary>With conda</summary>
 
 ```
-conda install gz-rendering gz-rendering9 gz-rendering9-ogre libgz-rendering libgz-rendering9 libgz-rendering9-ogre
+conda install gz-rendering gz-rendering-ogre gz-rendering9 gz-rendering9-ogre libgz-rendering libgz-rendering-ogre libgz-rendering9 libgz-rendering9-ogre
 ```
 
 </details>
@@ -86,7 +88,7 @@ conda install gz-rendering gz-rendering9 gz-rendering9-ogre libgz-rendering libg
 <summary>With mamba</summary>
 
 ```
-mamba install gz-rendering gz-rendering9 gz-rendering9-ogre libgz-rendering libgz-rendering9 libgz-rendering9-ogre
+mamba install gz-rendering gz-rendering-ogre gz-rendering9 gz-rendering9-ogre libgz-rendering libgz-rendering-ogre libgz-rendering9 libgz-rendering9-ogre
 ```
 
 </details>
@@ -96,9 +98,9 @@ mamba install gz-rendering gz-rendering9 gz-rendering9-ogre libgz-rendering libg
 
 ```
 # for adding to your local project
-pixi add gz-rendering gz-rendering9 gz-rendering9-ogre libgz-rendering libgz-rendering9 libgz-rendering9-ogre
+pixi add gz-rendering gz-rendering-ogre gz-rendering9 gz-rendering9-ogre libgz-rendering libgz-rendering-ogre libgz-rendering9 libgz-rendering9-ogre
 # for installing globally
-pixi global install gz-rendering gz-rendering9 gz-rendering9-ogre libgz-rendering libgz-rendering9 libgz-rendering9-ogre
+pixi global install gz-rendering gz-rendering-ogre gz-rendering9 gz-rendering9-ogre libgz-rendering libgz-rendering-ogre libgz-rendering9 libgz-rendering9-ogre
 ```
 
 </details>
