@@ -16,13 +16,16 @@ recipe:
 source:
   - url: https://github.com/gazebosim/${{ repo_name }}/archive/${{ repo_name }}${{ major_version }}_${{ version }}.tar.gz
     sha256: e223a71b5755230cb529c6810e066c4cc694432444ecc648db92bd28838d3367
+    patches:
+      - conda-ogre-hint.patch
 
 build:
-  number: 0
+  number: 1
 
 outputs:
-  - package:
-      name: ${{ cxx_name }}
+  # Build everything once; the package outputs below select their files from it.
+  - staging:
+      name: ${{ cxx_name }}-build
     build:
       script:
         - if: unix
@@ -53,6 +56,25 @@ outputs:
         - if: win
           then:
             - dlfcn-win32
+
+  # Core library and the ogre2 (ogre-next) engine, without the ogre 1.x engine.
+  - package:
+      name: ${{ cxx_name }}
+    inherit: ${{ cxx_name }}-build
+    build:
+      files:
+        exclude:
+          - "**/engine-plugins/*gz-rendering8-ogre.*"
+          - "**/engine-plugins/*gz-rendering-ogre.*"
+          - "lib/*gz-rendering8-ogre.*"
+          - "Library/lib/gz-rendering8-ogre.*"
+          - "Library/bin/gz-rendering8-ogre.*"
+          - "**/cmake/gz-rendering8-ogre/**"
+          - "**/gz/rendering/ogre/**"
+          - "**/gz/rendering/ogre.hh"
+          - "**/pkgconfig/gz-rendering8-ogre.pc"
+          - "**/share/gz/gz-rendering8/ogre/**"
+    requirements:
       run:
         - if: linux
           then:
@@ -61,6 +83,9 @@ outputs:
             - libegl-devel
       run_exports:
         - ${{ pin_subpackage(cxx_name, upper_bound='x') }}
+      ignore_run_exports:
+        from_package:
+          - ogre
     tests:
       - script:
           - if: not win
@@ -68,16 +93,72 @@ outputs:
               - test -f ${PREFIX}/include/gz/${{ component_version }}/gz/${{ component_name }}.hh
               - test -f ${PREFIX}/lib/lib${{ name }}${SHLIB_EXT}
               - test -f ${PREFIX}/lib/cmake/${{ name }}/${{ name }}-config.cmake
-              - test -f ${PREFIX}/lib/gz-${{ component_name }}-${{ major_version }}/engine-plugins/lib${{ name }}-ogre${SHLIB_EXT}
               - test -f ${PREFIX}/lib/gz-${{ component_name }}-${{ major_version }}/engine-plugins/lib${{ name }}-ogre2${SHLIB_EXT}
-          - if: win
-            then:
+              - test ! -f ${PREFIX}/lib/gz-${{ component_name }}-${{ major_version }}/engine-plugins/lib${{ name }}-ogre${SHLIB_EXT}
+              - test ! -e ${PREFIX}/lib/gz-${{ component_name }}-${{ major_version }}/engine-plugins/libgz-rendering-ogre${SHLIB_EXT}
+              - test ! -d ${PREFIX}/lib/OGRE
+            else:
               - if not exist %PREFIX%\\Library\\include\\gz\\${{ component_version }}\\gz\\${{ component_name }}.hh exit 1
               - if not exist %PREFIX%\\Library\\lib\\${{ name }}.lib exit 1
               - if not exist %PREFIX%\\Library\\bin\\${{ name }}.dll exit 1
               - if not exist %PREFIX%\\Library\\lib\\cmake\\${{ name }}\\${{ name }}-config.cmake exit 1
-              - if not exist %PREFIX%\\Library\\lib\\gz-${{ component_name }}-${{ major_version }}\\engine-plugins\\${{ name }}-ogre.dll exit 1
               - if not exist %PREFIX%\\Library\\lib\\gz-${{ component_name }}-${{ major_version }}\\engine-plugins\\${{ name }}-ogre2.dll exit 1
+              - if exist %PREFIX%\\Library\\lib\\gz-${{ component_name }}-${{ major_version }}\\engine-plugins\\${{ name }}-ogre.dll exit 1
+              - if exist %PREFIX%\\Library\\lib\\gz-${{ component_name }}-${{ major_version }}\\engine-plugins\\gz-rendering-ogre.dll exit 1
+
+  # Optional ogre 1.x engine plugin; pulls in ogre 1.10.
+  - package:
+      name: ${{ cxx_name }}-ogre
+    inherit: ${{ cxx_name }}-build
+    build:
+      files:
+        include:
+          - "**/engine-plugins/*gz-rendering8-ogre.*"
+          - "**/engine-plugins/*gz-rendering-ogre.*"
+          - "lib/*gz-rendering8-ogre.*"
+          - "Library/lib/gz-rendering8-ogre.*"
+          - "Library/bin/gz-rendering8-ogre.*"
+          - "**/cmake/gz-rendering8-ogre/**"
+          - "**/gz/rendering/ogre/**"
+          - "**/gz/rendering/ogre.hh"
+          - "**/pkgconfig/gz-rendering8-ogre.pc"
+          - "**/share/gz/gz-rendering8/ogre/**"
+    requirements:
+      host:
+        - ogre 1.10.*
+      run:
+        - ${{ pin_subpackage(cxx_name, exact=True) }}
+        - ${{ pin_compatible('ogre', upper_bound='x.x') }}
+      run_exports:
+        - ${{ pin_subpackage(cxx_name + '-ogre', upper_bound='x') }}
+    tests:
+      - script:
+          - if: not win
+            then:
+              - test -f ${PREFIX}/lib/gz-${{ component_name }}-${{ major_version }}/engine-plugins/lib${{ name }}-ogre${SHLIB_EXT}
+              - test -f ${PREFIX}/lib/gz-${{ component_name }}-${{ major_version }}/engine-plugins/libgz-rendering-ogre${SHLIB_EXT}
+              - test -f ${PREFIX}/lib/cmake/${{ name }}-ogre/${{ name }}-ogre-config.cmake
+            else:
+              - if not exist %PREFIX%\\Library\\lib\\gz-${{ component_name }}-${{ major_version }}\\engine-plugins\\${{ name }}-ogre.dll exit 1
+              - if not exist %PREFIX%\\Library\\lib\\gz-${{ component_name }}-${{ major_version }}\\engine-plugins\\gz-rendering-ogre.dll exit 1
+              - if not exist %PREFIX%\\Library\\lib\\cmake\\${{ name }}-ogre\\${{ name }}-ogre-config.cmake exit 1
+
+  - package:
+      name: ${{ name }}-ogre
+    requirements:
+      run:
+        - ${{ pin_subpackage(cxx_name + '-ogre', exact=True) }}
+      run_exports:
+        - ${{ pin_subpackage(cxx_name + '-ogre', upper_bound='x') }}
+    tests:
+      - script:
+          - if: not win
+            then:
+              - test -f ${PREFIX}/lib/gz-${{ component_name }}-${{ major_version }}/engine-plugins/lib${{ name }}-ogre${SHLIB_EXT}
+              - test -f ${PREFIX}/lib/gz-${{ component_name }}-${{ major_version }}/engine-plugins/libgz-rendering-ogre${SHLIB_EXT}
+            else:
+              - if not exist %PREFIX%\\Library\\lib\\gz-${{ component_name }}-${{ major_version }}\\engine-plugins\\${{ name }}-ogre.dll exit 1
+              - if not exist %PREFIX%\\Library\\lib\\gz-${{ component_name }}-${{ major_version }}\\engine-plugins\\gz-rendering-ogre.dll exit 1
 
   - package:
       name: ${{ name }}
