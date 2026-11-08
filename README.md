@@ -61,7 +61,9 @@ Current release info
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-gz--rendering-green.svg)](https://anaconda.org/conda-forge/gz-rendering) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/gz-rendering.svg)](https://anaconda.org/conda-forge/gz-rendering) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/gz-rendering.svg)](https://anaconda.org/conda-forge/gz-rendering) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/gz-rendering.svg)](https://anaconda.org/conda-forge/gz-rendering) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-gz--rendering--ogre-green.svg)](https://anaconda.org/conda-forge/gz-rendering-ogre) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/gz-rendering-ogre.svg)](https://anaconda.org/conda-forge/gz-rendering-ogre) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/gz-rendering-ogre.svg)](https://anaconda.org/conda-forge/gz-rendering-ogre) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/gz-rendering-ogre.svg)](https://anaconda.org/conda-forge/gz-rendering-ogre) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libgz--rendering-green.svg)](https://anaconda.org/conda-forge/libgz-rendering) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libgz-rendering.svg)](https://anaconda.org/conda-forge/libgz-rendering) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libgz-rendering.svg)](https://anaconda.org/conda-forge/libgz-rendering) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libgz-rendering.svg)](https://anaconda.org/conda-forge/libgz-rendering) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-libgz--rendering--ogre-green.svg)](https://anaconda.org/conda-forge/libgz-rendering-ogre) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libgz-rendering-ogre.svg)](https://anaconda.org/conda-forge/libgz-rendering-ogre) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libgz-rendering-ogre.svg)](https://anaconda.org/conda-forge/libgz-rendering-ogre) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libgz-rendering-ogre.svg)](https://anaconda.org/conda-forge/libgz-rendering-ogre) |
 
 Installing gz-rendering
 =======================
@@ -80,7 +82,7 @@ How to use
 <summary>With conda</summary>
 
 ```
-conda install gz-rendering libgz-rendering
+conda install gz-rendering gz-rendering-ogre libgz-rendering libgz-rendering-ogre
 ```
 
 </details>
@@ -89,7 +91,7 @@ conda install gz-rendering libgz-rendering
 <summary>With mamba</summary>
 
 ```
-mamba install gz-rendering libgz-rendering
+mamba install gz-rendering gz-rendering-ogre libgz-rendering libgz-rendering-ogre
 ```
 
 </details>
@@ -99,9 +101,9 @@ mamba install gz-rendering libgz-rendering
 
 ```
 # for adding to your local project
-pixi add gz-rendering libgz-rendering
+pixi add gz-rendering gz-rendering-ogre libgz-rendering libgz-rendering-ogre
 # for installing globally
-pixi global install gz-rendering libgz-rendering
+pixi global install gz-rendering gz-rendering-ogre libgz-rendering libgz-rendering-ogre
 ```
 
 </details>
@@ -155,6 +157,7 @@ mamba repoquery depends gz-rendering --channel conda-forge
 </details>
 
 
+
 About conda-forge
 =================
 
@@ -169,9 +172,7 @@ for each of the installable packages. Such a repository is known as a *feedstock
 A feedstock is made up of a conda recipe (the instructions on what and how to build
 the package) and the necessary configurations for automatic building using freely
 available continuous integration services. Thanks to the awesome service provided by
-[Azure](https://azure.microsoft.com/en-us/services/devops/), [GitHub](https://github.com/),
-[CircleCI](https://circleci.com/), [AppVeyor](https://www.appveyor.com/),
-[Drone](https://cloud.drone.io/welcome), and [TravisCI](https://travis-ci.com/)
+[Azure](https://azure.microsoft.com/en-us/services/devops/) and [GitHub](https://github.com/)
 it is possible to build and upload installable packages to the
 [conda-forge](https://anaconda.org/conda-forge) [anaconda.org](https://anaconda.org/)
 channel for Linux, Windows and OSX respectively.

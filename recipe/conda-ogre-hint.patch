@@ -1,0 +1,16 @@
+diff --git a/src/RenderEngineManager.cc b/src/RenderEngineManager.cc
+index db9aab0..7e816c9 100644
+--- a/src/RenderEngineManager.cc
++++ b/src/RenderEngineManager.cc
+@@ -537,6 +537,11 @@ bool RenderEngineManagerPrivate::LoadEnginePlugin(
+   {
+     gzerr << "Failed to load plugin [" << _filename <<
+              "] : couldn't find shared library." << std::endl;
++    if (_filename == "gz-rendering-ogre")
++    {
++      gzerr << "In conda-forge, the ogre (Ogre 1.x) render engine is "
++            << "packaged separately. Install it with the gz-rendering-ogre package." << std::endl;
++    }
+     return false;
+   }
+ 
