@@ -34,6 +34,6 @@ setlocal EnableDelayedExpansion
 :: This will allow them to be run on environment activation.
 for %%F in (activate deactivate) DO (
     if not exist %PREFIX%\etc\conda\%%F.d mkdir %PREFIX%\etc\conda\%%F.d
-    copy %RECIPE_DIR%\%%F.bat %PREFIX%\etc\conda\%%F.d\%PKG_NAME%_%%F.bat
+    copy %RECIPE_DIR%\%%F.bat %PREFIX%\etc\conda\%%F.d\libgz-rendering8_%%F.bat
     if %errorlevel% neq 0 exit /b %errorlevel%
 )
