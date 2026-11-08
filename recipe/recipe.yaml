@@ -39,7 +39,7 @@ outputs:
         - ${{ stdlib('c') }}
         - ninja
         - cmake
-        - pkg-config
+        - pkgconf
       host:
         - libgz-math7
         - libgz-common5
@@ -216,6 +216,41 @@ outputs:
     tests:
       - script:
           - cmake-package-check gz-${{ component_name }}${{ major_version }}
+        requirements:
+          run:
+            - cmake-package-check
+            - ${{ compiler('c') }}
+            - ${{ compiler('cxx') }}
+
+  - package:
+      name: libgz-${{ component_name }}-ogre
+    requirements:
+      run:
+        - ${{ pin_subpackage(cxx_name + '-ogre', exact=true) }}
+      run_exports:
+        - ${{ pin_subpackage(cxx_name + '-ogre', upper_bound='x') }}
+        - ${{ pin_subpackage('libgz-rendering-ogre', upper_bound='x') }}
+    tests:
+      - script:
+          - cmake-package-check gz-${{ component_name }}${{ major_version }}-ogre
+        requirements:
+          run:
+            - cmake-package-check
+            - ${{ compiler('c') }}
+            - ${{ compiler('cxx') }}
+
+  - package:
+      name: gz-${{ component_name }}-ogre
+    requirements:
+      run:
+        - ${{ pin_subpackage(name + '-ogre', exact=true) }}
+        - ${{ pin_subpackage('libgz-rendering-ogre', exact=true) }}
+      run_exports:
+        - ${{ pin_subpackage(cxx_name + '-ogre', upper_bound='x') }}
+        - ${{ pin_subpackage('libgz-rendering-ogre', upper_bound='x') }}
+    tests:
+      - script:
+          - cmake-package-check gz-${{ component_name }}${{ major_version }}-ogre
         requirements:
           run:
             - cmake-package-check
