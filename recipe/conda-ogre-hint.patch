@@ -1,0 +1,16 @@
+--- a/src/RenderEngineManager.cc
++++ b/src/RenderEngineManager.cc
+@@ -538,6 +538,13 @@
+   {
+     gzerr << "Failed to load plugin [" << _filename <<
+              "] : couldn't find shared library." << std::endl;
++    if (_filename == "gz-rendering-ogre" ||
++        _filename == "gz-rendering9-ogre")
++    {
++      gzerr << "In conda-forge, the ogre (Ogre 1.x) render engine is "
++            << "packaged separately. Install it with the "
++            << "gz-rendering9-ogre package." << std::endl;
++    }
+     return false;
+   }
+ 
